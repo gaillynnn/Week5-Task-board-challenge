@@ -20,7 +20,7 @@ function createTaskCard(task) {
             <h5 class="card-title">${task.title}</h5>
             <p class="card-text"-> ${task.description} </p>
           </div>
-          <button id="${task.id} type="button" class="btn btn-danger">Delete</button>
+          <button id="${task.id}" type="button" class="btn btn-danger"onclick="handleDeleteTask(event)">Delete</button>
         </div>
       </div>
     </div>
@@ -38,7 +38,7 @@ function createTaskCard(task) {
             <h5 class="card-title">${task.title}</h5>
             <p class="card-text"-> ${task.description} </p>
           </div>
-          button id="${task.id} type="button" class="btn btn-danger">Delete</button>
+          button id="${task.id}" type="button" class="btn btn-danger" onclick="handleDeleteTask(event)">Delete</button>
         </div>
       </div>
     </div>
@@ -55,7 +55,7 @@ function createTaskCard(task) {
             <h5 class="card-title">${task.title}</h5>
             <p class="card-text"-> ${task.description} </p>
           </div>
-          button id="${task.id} type="button" class="btn btn-danger">Delete</button>
+          button id="${task.id}" type="button" class="btn btn-danger" onclick="handleDeleteTask(event)">Delete</button>
         </div>
       </div>
     </div>
@@ -109,14 +109,17 @@ function handleAddTask(event) {
 
 // Todo: create a function to handle deleting a task
 function handleDeleteTask(event) {
+  event.preventDefault()
   const taskId = event.target.id
   let tempTaskList = []
+  console.log("delete",taskId)
   for(let i = 0; i < taskList.length; i++){
     if(taskList[i].id != taskId){
       tempTaskList.push(taskList[i])
     }
   }
   taskList = tempTaskList
+  console.log(taskList)
   localStorage.setItem("tasks", JSON.stringify(taskList))
   $(`#${taskId}`).remove()
 }
