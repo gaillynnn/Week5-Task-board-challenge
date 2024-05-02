@@ -8,12 +8,12 @@ function generateTaskId() {
 }
 
 // Todo: create a function to create a task card
-function createTaskCard(task) {
+function createTaskCard(task,color) {
   if(task.status === "todo"){ 
     $("#todo-cards").append(`
     <div class="row row-cols-1 draggable row-cols-md-11 g-4" id="${task.id}">
       <div class="col">
-        <div class="card h-100">
+        <div class="card h-100 ${color} text-white">
        
           <div class="card-body">
           <h5 class="card-title">${dayjs(task.dueDate).format("MM/DD/YYYY")}</h5>
@@ -31,7 +31,7 @@ function createTaskCard(task) {
     $("#in-progress-cards").append(`
     <div class="row row-cols-1 draggable row-cols-md-11 g-4" id="${task.id}">
       <div class="col">
-        <div class="card h-100">
+        <div class="card h-100 ${color} text-white">
        
           <div class="card-body">
           <h5 class="card-title">${dayjs(task.dueDate).format("MM/DD/YYYY")}</h5>
@@ -46,9 +46,9 @@ function createTaskCard(task) {
     `)
   }else{
     $("#done-cards").append(`
-    <div class="row row-cols-1 draggable row-cols-md-11 g-4" id="${task.id}">
+    <div class="row row-cols-1 draggable row-cols-md-11 g-4"  id="${task.id}">
       <div class="col">
-        <div class="card h-100">
+        <div class="card h-100 ${color} text-white">
        
           <div class="card-body">
           <h5 class="card-title">${dayjs(task.dueDate).format("MM/DD/YYYY")}</h5>
@@ -68,7 +68,17 @@ function createTaskCard(task) {
 // Todo: create a function to render the task list and make cards draggable
 function renderTaskList() {
     for (var i = 0; i < taskList.length; i++) {
-        createTaskCard(taskList[i])
+        var today = dayjs()
+        var taskDate = dayjs(taskList[i].dueDate,"DD/MM/YYYY")
+        var color =""
+        if(today.isAfter(taskDate)){
+          color = "bg-danger"
+        }else if(today.isBefore(taskDate)){
+          color = "bg-success"
+        }else{
+          color = "bg-warning"
+        }
+        createTaskCard(taskList[i],color)
     }
     // make task cards draggable
   $('.draggable').draggable({
